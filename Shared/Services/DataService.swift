@@ -7,29 +7,25 @@
 
 import Foundation
 
-
 class DataService {
     
     static func getLocalData() -> [Recipe] {
         
-        // Parse local JSON file
+        // Parse local json file
         
-        // Get a url path to the JSON file
+        // Get a url path to the json file
         let pathString = Bundle.main.path(forResource: "recipes", ofType: "json")
         
         // Check if pathString is not nil, otherwise...
         guard pathString != nil else {
-            
             return [Recipe]()
-            
         }
         
         // Create a url object
         let url = URL(fileURLWithPath: pathString!)
         
-        // Create a data object
         do {
-            
+            // Create a data object
             let data = try Data(contentsOf: url)
             
             // Decode the data with a JSON decoder
@@ -41,42 +37,28 @@ class DataService {
                 
                 // Add the unique IDs
                 for r in recipeData {
-                    
                     r.id = UUID()
                     
-                    // Add unique IDs to ingredients
+                    // Add unique IDs to recipe ingredients
                     for i in r.ingredients {
-                        
                         i.id = UUID()
-                        
                     }
-                    
                 }
                 
                 // Return the recipes
                 return recipeData
-                
             }
-            
             catch {
-                
-                // Error with parsing JSON
+                // error with parsing json
                 print(error)
-                
             }
-            
-            
         }
-        
         catch {
-            
-            // Error with getting data
+            // error with getting data
             print(error)
-            
         }
         
         return [Recipe]()
-        
     }
     
 }
